@@ -1,0 +1,9 @@
+{
+  "name": "pickle-e2e",
+  "private": true,
+  "type": "module",
+  "description": "Fake phones: headless Chrome with a synthetic clip as its camera, pointed at the real /cam page",
+  "dependencies": {
+    "playwright": "1.58.2"
+  }
+}

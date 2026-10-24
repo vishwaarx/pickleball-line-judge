@@ -1,0 +1,30 @@
+# Secrets
+.env
+
+# Python
+.venv/
+__pycache__/
+*.pyc
+.pytest_cache/
+
+# Node (e2e fake phones)
+node_modules/
+
+# Generated at runtime on each Mac — never commit
+# mkcert TLS cert + private key, recreated by app.py on start
+server/certs/
+# evidence strips (.jpg + .json) for every call
+server/events/
+# per-venue camera calibrations
+server/calib/
+# synthetic .y4m/.mp4 clips from tools/synth.py
+server/clips/
+# logs, except the accuracy evidence cited in TEST-REPORT.md
+server/logs/*
+!server/logs/bench_full3.txt
+!server/logs/e2e_run.txt
+!server/logs/e2e_run2.txt
+
+# Local tooling
+.claude/
+.DS_Store

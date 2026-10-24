@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Line judge</title>
+<link rel="stylesheet" href="/static/dashboard.css">
+</head>
+<body>
+<section id="band" class="band idle" aria-live="assertive">
+  <div class="word" id="word">Watching</div>
+  <div class="detail">
+    <div class="cam" id="bandCam">no cameras yet</div>
+    <div class="gap" id="bandGap"></div>
+    <div class="meta" id="bandMeta"></div>
+  </div>
+</section>
+
+<section class="body">
+  <div class="cams">
+    <div id="tiles" class="tiles"></div>
+    <div class="empty" id="emptyCams">
+      <div class="qr"><img id="qr" src="/qr.png" alt="QR code with the camera page address"></div>
+      <div>
+        <h2>Add a phone</h2>
+        <p>On each phone: join the Mac's Wi‑Fi, scan this code, tap <b>Start camera</b>.</p>
+        <p class="url" id="joinUrl"></p>
+        <p class="muted">Browser warns about the certificate once: tap <i>Show details → visit website</i> (iPhone) or <i>Advanced → Proceed</i> (Android).</p>
+      </div>
+    </div>
+  </div>
+
+  <aside class="side">
+    <div class="evidence">
+      <h2>Last call</h2>
+      <a id="stripLink" href="#" target="_blank" rel="noopener"><img id="strip" alt="Five frames around the bounce with the ball track and the line drawn" hidden></a>
+      <p class="muted" id="stripEmpty">The five frames around each bounce appear here, with the ball path and the line drawn in.</p>
+    </div>
+    <div class="log">
+      <h2>Calls</h2>
+      <ol id="log"></ol>
+    </div>
+    <div class="tools">
+      <details>
+        <summary>Settings</summary>
+        <label>Out margin <input id="margin" type="number" step="0.5" min="0" max="10"> cm</label>
+        <label>Speak IN calls within <input id="announce" type="number" step="1" min="0" max="100"> cm of the line</label>
+        <label><input id="speak" type="checkbox"> Speak verdicts</label>
+        <button id="testSay" class="small">Test voice</button>
+        <p class="muted">Rule 8.E: "out" only with visible space between ball and line. Anything inside the margin is called TOO CLOSE and counts as IN.</p>
+      </details>
+      <details>
+        <summary>Join info</summary>
+        <img src="/qr.png" alt="QR code with the camera page address" class="qr-small">
+        <p class="url" id="joinUrl2"></p>
+        <p class="muted" id="hosts"></p>
+      </details>
+    </div>
+  </aside>
+</section>
+
+<div id="calib" class="calib" hidden>
+  <div class="calib-head">
+    <div class="calib-title" id="calibTitle">Calibrate</div>
+    <div class="calib-step" id="calibStep"></div>
+    <div class="calib-actions">
+      <button id="calibUndo" class="small">Undo</button>
+      <button id="calibSkip" class="small" hidden>Skip ball</button>
+      <button id="calibSave" class="small primary" hidden>Save</button>
+      <button id="calibCancel" class="small">Cancel</button>
+    </div>
+  </div>
+  <div class="calib-stage">
+    <img id="calibImg" alt="Latest frame from this camera">
+    <canvas id="calibCanvas"></canvas>
+  </div>
+</div>
+
+<template id="tileTpl">
+  <article class="tile">
+    <div class="frame"><img alt="Live preview"><div class="pill"></div></div>
+    <div class="tile-row">
+      <div class="tile-name"></div>
+      <div class="tile-fps"></div>
+    </div>
+    <div class="tile-row tile-actions">
+      <button class="small act-calib">Calibrate</button>
+      <button class="small act-guard" title="Accept the current view as the reference">Re-arm guard</button>
+      <button class="small act-color" title="Forget the ball colour; detect by motion only" hidden><i class="swatch"></i>Clear colour</button>
+      <button class="small quiet act-remove">Remove</button>
+    </div>
+    <div class="tile-note"></div>
+  </article>
+</template>
+<script src="/static/dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,126 @@
+Near baseline: capture [1280, 720] in 25.2 fps judged 25.2 fps phone={'width': 1280, 'height': 720, 'frameRate': 30, 'ua': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36'}
+Left sideline: capture [1280, 720] in 28.0 fps judged 28.0 fps phone={'width': 1280, 'height': 720, 'frameRate': 30, 'ua': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36'}
+Right sideline: capture [1280, 720] in 56.7 fps judged 56.7 fps phone={'width': 1280, 'height': 720, 'frameRate': 60, 'ua': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) HeadlessChrome/145.0.7632.6 Safari/537.36'}
+Left sideline: calibrated, scale={'a': 0.14469031243529434, 'b': -36.75433386542868, 'n': 15, 'rms': 0.07555573320402796} snapped=True
+Right sideline: calibrated, scale={'a': 0.14463316850876978, 'b': -36.71042393787002, 'n': 15, 'rms': 0.08813484020189138} snapped=True
+Near baseline: calibrated, scale={'a': 0.14492018737622328, 'b': -36.82542048032929, 'n': 15, 'rms': 0.06913526729532184} snapped=True
+watching for 75s …
+Near baseline: in 30.0 fps judged 30.0 fps status LIVE
+Left sideline: in 30.2 fps judged 30.2 fps status LIVE
+Right sideline: in 59.9 fps judged 59.9 fps status LIVE
+
+Left sideline: 35 events for 10 bounces per loop (30 fps clip)
+  02:05:27 IN        meas   -0.7 cm  nearest truth -1.0 (IN) Z=2.5 q=good 4+3 
+  02:05:29 TOO_CLOSE meas    0.3 cm  nearest truth +0.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:05:31 TOO_CLOSE meas    1.8 cm  nearest truth +1.5 (TOO_CLOSE) Z=4.0 q=good 4+3 
+  02:05:33 OUT       meas    3.4 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:05:35 OUT       meas    7.4 cm  nearest truth +8.0 (OUT) Z=4.0 q=good 4+3 
+  02:05:37 OUT       meas    8.8 cm  nearest truth +8.0 (OUT) Z=4.0 q=good 4+3 
+  02:05:39 IN        meas   -4.7 cm  nearest truth -4.0 (IN) Z=6.0 q=good 4+3 
+  02:05:40 OUT       meas    2.9 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:05:42 OUT       meas   14.5 cm  nearest truth +12.0 (OUT) Z=6.0 q=good 4+2    <-- check
+  02:05:48 IN        meas   -0.0 cm  nearest truth +0.5 (TOO_CLOSE) Z=6.0 q=good 4+3    <-- check
+  02:05:50 TOO_CLOSE meas    0.3 cm  nearest truth +0.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:05:52 OUT       meas    3.1 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:54 OUT       meas    3.4 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:05:55 OUT       meas    4.0 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:05:57 OUT       meas    9.3 cm  nearest truth +8.0 (OUT) Z=4.0 q=good 4+3 
+  02:05:59 IN        meas   -4.2 cm  nearest truth -4.0 (IN) Z=6.0 q=good 4+3 
+  02:06:01 OUT       meas    3.8 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+2 
+  02:06:03 OUT       meas   12.6 cm  nearest truth +12.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:09 TOO_CLOSE meas    0.7 cm  nearest truth +0.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:06:11 TOO_CLOSE meas    0.4 cm  nearest truth +0.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:06:12 TOO_CLOSE meas    1.7 cm  nearest truth +1.5 (TOO_CLOSE) Z=4.0 q=good 4+3 
+  02:06:14 OUT       meas    3.5 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:16 OUT       meas    4.1 cm  nearest truth +5.0 (OUT) Z=4.0 q=good 4+3 
+  02:06:18 OUT       meas    8.7 cm  nearest truth +8.0 (OUT) Z=4.0 q=good 4+3 
+  02:06:20 IN        meas   -4.7 cm  nearest truth -4.0 (IN) Z=6.0 q=good 4+3 
+  02:06:22 OUT       meas    2.6 cm  nearest truth +2.5 (OUT) Z=6.0 q=good 4+3 
+  02:06:24 OUT       meas   11.9 cm  nearest truth +12.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:28 IN        meas   -5.5 cm  nearest truth -6.0 (IN) Z=2.5 q=good 4+2 
+  02:06:29 IN        meas   -1.5 cm  nearest truth -1.0 (IN) Z=2.5 q=good 4+3 
+  02:06:31 TOO_CLOSE meas    0.4 cm  nearest truth +0.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:06:33 OUT       meas    2.5 cm  nearest truth +2.5 (OUT) Z=6.0 q=good 4+2 
+  02:06:35 OUT       meas    3.4 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:37 OUT       meas    3.6 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:39 OUT       meas    9.2 cm  nearest truth +8.0 (OUT) Z=4.0 q=good 4+3 
+  02:06:41 IN        meas   -5.1 cm  nearest truth -6.0 (IN) Z=2.5 q=good 4+2 
+  matched 33, off 2
+
+Right sideline: 36 events for 10 bounces per loop (60 fps clip)
+  02:05:27 IN        meas   -0.2 cm  nearest truth +0.5 (TOO_CLOSE) Z=4.0 q=good 4+2    <-- check
+  02:05:29 TOO_CLOSE meas    0.4 cm  nearest truth +0.5 (TOO_CLOSE) Z=4.0 q=good 4+2 
+  02:05:31 TOO_CLOSE meas    1.2 cm  nearest truth +1.5 (TOO_CLOSE) Z=6.0 q=good 4+2 
+  02:05:33 OUT       meas    2.2 cm  nearest truth +2.5 (OUT) Z=6.0 q=good 4+2 
+  02:05:35 OUT       meas    5.5 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:37 OUT       meas    9.0 cm  nearest truth +8.0 (OUT) Z=2.5 q=good 4+2 
+  02:05:38 IN        meas   -4.3 cm  nearest truth -4.0 (IN) Z=4.0 q=good 4+2 
+  02:05:40 OUT       meas    2.9 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:42 OUT       meas   13.6 cm  nearest truth +12.0 (OUT) Z=2.5 q=good 4+2 
+  02:05:46 IN        meas   -6.2 cm  nearest truth -6.0 (IN) Z=2.5 q=good 4+2 
+  02:05:48 OUT       meas    5.4 cm  nearest truth +5.0 (OUT) Z=6.0 q=low 2+4 few frames, but gap is clear
+  02:05:50 TOO_CLOSE meas    0.6 cm  nearest truth +0.5 (TOO_CLOSE) Z=4.0 q=good 4+2 
+  02:05:52 IN        meas   -0.5 cm  nearest truth -1.0 (IN) Z=2.5 q=good 4+3 
+  02:05:54 OUT       meas    2.9 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:55 OUT       meas    5.7 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:57 OUT       meas    8.8 cm  nearest truth +8.0 (OUT) Z=2.5 q=good 4+2 
+  02:05:59 IN        meas   -4.5 cm  nearest truth -4.0 (IN) Z=4.0 q=good 4+2 
+  02:06:01 OUT       meas    3.2 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:03 OUT       meas   12.5 cm  nearest truth +12.0 (OUT) Z=2.5 q=good 4+2 
+  02:06:07 IN        meas   -6.2 cm  nearest truth -6.0 (IN) Z=2.5 q=good 4+2 
+  02:06:10 TOO_CLOSE meas    0.1 cm  nearest truth +0.5 (TOO_CLOSE) Z=4.0 q=good 4+2 
+  02:06:12 TOO_CLOSE meas    1.9 cm  nearest truth +1.5 (TOO_CLOSE) Z=6.0 q=good 4+2 
+  02:06:14 OUT       meas    2.5 cm  nearest truth +2.5 (OUT) Z=6.0 q=good 4+2 
+  02:06:16 OUT       meas    4.5 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:18 OUT       meas    8.9 cm  nearest truth +8.0 (OUT) Z=2.5 q=good 4+2 
+  02:06:20 IN        meas   -5.0 cm  nearest truth -6.0 (IN) Z=2.5 q=good 4+2 
+  02:06:22 OUT       meas    2.7 cm  nearest truth +2.5 (OUT) Z=6.0 q=good 4+2 
+  02:06:24 OUT       meas   13.3 cm  nearest truth +12.0 (OUT) Z=2.5 q=good 4+2 
+  02:06:27 IN        meas   -6.3 cm  nearest truth -6.0 (IN) Z=2.5 q=good 4+2 
+  02:06:29 IN        meas   -0.7 cm  nearest truth -1.0 (IN) Z=2.5 q=good 3+2 
+  02:06:31 TOO_CLOSE meas    0.6 cm  nearest truth +0.5 (TOO_CLOSE) Z=4.0 q=good 4+2 
+  02:06:33 OUT       meas    2.1 cm  nearest truth +2.5 (OUT) Z=6.0 q=good 4+2 
+  02:06:35 OUT       meas    3.5 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+2 
+  02:06:37 OUT       meas    5.8 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+2 
+  02:06:39 OUT       meas    9.8 cm  nearest truth +8.0 (OUT) Z=2.5 q=good 4+2    <-- check
+  02:06:40 IN        meas   -4.3 cm  nearest truth -4.0 (IN) Z=4.0 q=good 4+2 
+  matched 34, off 2
+
+Near baseline: 34 events for 10 bounces per loop (30 fps clip)
+  02:05:27 IN        meas   -0.8 cm  nearest truth -1.0 (IN) Z=4.0 q=good 4+3 
+  02:05:29 TOO_CLOSE meas    1.2 cm  nearest truth +1.5 (TOO_CLOSE) Z=6.0 q=good 4+2 
+  02:05:31 OUT       meas    2.2 cm  nearest truth +2.5 (OUT) Z=4.0 q=good 4+3 
+  02:05:33 OUT       meas    4.1 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:35 OUT       meas    6.5 cm  nearest truth +8.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:37 OUT       meas   10.6 cm  nearest truth +12.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:39 IN        meas   -4.0 cm  nearest truth -4.0 (IN) Z=6.0 q=good 4+3 
+  02:05:40 OUT       meas    3.1 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+3 
+  02:05:42 OUT       meas   12.9 cm  nearest truth +12.0 (OUT) Z=6.0 q=good 4+3 
+  02:05:48 IN        meas   -0.7 cm  nearest truth -1.0 (IN) Z=4.0 q=good 4+3 
+  02:05:50 TOO_CLOSE meas    0.8 cm  nearest truth +0.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:05:52 OUT       meas    2.4 cm  nearest truth +2.5 (OUT) Z=4.0 q=good 4+2 
+  02:05:54 OUT       meas    5.2 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+2 
+  02:05:56 OUT       meas    5.4 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+3 
+  02:05:57 OUT       meas    9.5 cm  nearest truth +8.0 (OUT) Z=6.0 q=good 4+3 
+  02:05:59 IN        meas   -4.3 cm  nearest truth -4.0 (IN) Z=6.0 q=good 4+3 
+  02:06:01 OUT       meas    2.6 cm  nearest truth +2.5 (OUT) Z=4.0 q=good 4+3 
+  02:06:03 OUT       meas   14.0 cm  nearest truth +12.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:09 IN        meas   -1.6 cm  nearest truth -1.0 (IN) Z=4.0 q=good 4+3 
+  02:06:11 TOO_CLOSE meas    0.4 cm  nearest truth +0.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:06:12 TOO_CLOSE meas    1.6 cm  nearest truth +1.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:06:14 OUT       meas    4.9 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+2 
+  02:06:16 OUT       meas    5.7 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:18 OUT       meas    8.8 cm  nearest truth +8.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:20 IN        meas   -4.1 cm  nearest truth -4.0 (IN) Z=6.0 q=good 4+3 
+  02:06:22 OUT       meas    3.4 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+2 
+  02:06:24 OUT       meas   11.3 cm  nearest truth +12.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:29 TOO_CLOSE meas    1.4 cm  nearest truth +1.5 (TOO_CLOSE) Z=6.0 q=good 4+2 
+  02:06:31 TOO_CLOSE meas    1.2 cm  nearest truth +1.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:06:33 TOO_CLOSE meas    1.9 cm  nearest truth +1.5 (TOO_CLOSE) Z=6.0 q=good 4+3 
+  02:06:35 OUT       meas    3.5 cm  nearest truth +3.0 (OUT) Z=6.0 q=good 4+2 
+  02:06:37 OUT       meas    5.3 cm  nearest truth +5.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:39 OUT       meas    8.5 cm  nearest truth +8.0 (OUT) Z=6.0 q=good 4+3 
+  02:06:41 IN        meas   -4.2 cm  nearest truth -4.0 (IN) Z=6.0 q=good 4+3 
+  matched 34, off 0
+
+E2E PASS

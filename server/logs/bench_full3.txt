@@ -1,0 +1,353 @@
+
+336 cases in 403s, margin 2.0 cm
+
+fps   gap    Z   vX    vZ  ph  expect    got         meas q    frames   ms/f
+----------------------------------------------------------------------------
+ 30  -6.0  2.5  0.5  -7.0 0.0  IN        IN          -6.3 good 4+3       4.2
+ 30  -6.0  2.5  0.5  -7.0 0.5  IN        IN          -6.2 good 4+2       3.4
+ 30  -6.0  2.5  0.5  +6.0 0.0  IN        IN          -6.0 good 4+3       3.3
+ 30  -6.0  2.5  0.5  +6.0 0.5  IN        IN          -6.3 good 4+2       3.2
+ 30  -6.0  2.5  3.0  -7.0 0.0  IN        IN          -7.0 good 4+3       3.3
+ 30  -6.0  2.5  3.0  -7.0 0.5  IN        IN          -6.6 good 4+2       3.4
+ 30  -6.0  2.5  3.0  +6.0 0.0  IN        IN          -6.1 good 2+3       3.3
+ 30  -6.0  2.5  3.0  +6.0 0.5  IN        IN          -6.4 good 3+2       3.3
+ 30  -6.0  4.0  0.5  -7.0 0.0  IN        IN          -6.4 good 4+3       3.3
+ 30  -6.0  4.0  0.5  -7.0 0.5  IN        IN          -6.3 good 4+2       3.3
+ 30  -6.0  4.0  0.5  +6.0 0.0  IN        IN          -6.2 good 4+3       3.3
+ 30  -6.0  4.0  0.5  +6.0 0.5  IN        IN          -6.3 good 4+2       3.2
+ 30  -6.0  4.0  3.0  -7.0 0.0  IN        IN          -6.8 good 4+3       3.3
+ 30  -6.0  4.0  3.0  -7.0 0.5  IN        IN          -6.5 good 4+2       3.4
+ 30  -6.0  4.0  3.0  +6.0 0.0  IN        IN          -5.3 good 4+3       3.2
+ 30  -6.0  4.0  3.0  +6.0 0.5  IN        IN          -6.2 good 4+2       3.4
+ 30  -6.0  6.0  0.5  -7.0 0.0  IN        IN          -6.3 good 4+3       3.6
+ 30  -6.0  6.0  0.5  -7.0 0.5  IN        IN          -6.4 good 4+2       3.2
+ 30  -6.0  6.0  0.5  +6.0 0.0  IN        IN          -6.2 good 4+3       3.3
+ 30  -6.0  6.0  0.5  +6.0 0.5  IN        IN          -6.2 good 4+2       3.3
+ 30  -6.0  6.0  3.0  -7.0 0.0  IN        IN          -6.7 good 4+3       3.3
+ 30  -6.0  6.0  3.0  -7.0 0.5  IN        IN          -6.4 good 4+2       3.4
+ 30  -6.0  6.0  3.0  +6.0 0.0  IN        IN          -5.7 good 4+3       3.4
+ 30  -6.0  6.0  3.0  +6.0 0.5  IN        IN          -6.1 good 4+2       3.3
+ 30  -2.0  2.5  0.5  -7.0 0.0  IN        IN          -2.0 good 4+3       3.2
+ 30  -2.0  2.5  0.5  -7.0 0.5  IN        IN          -2.0 good 4+2       3.4
+ 30  -2.0  2.5  0.5  +6.0 0.0  IN        IN          -1.6 good 4+3       3.4
+ 30  -2.0  2.5  0.5  +6.0 0.5  IN        IN          -1.7 good 4+2       3.3
+ 30  -2.0  2.5  3.0  -7.0 0.0  IN        IN          -2.7 good 4+3       3.5
+ 30  -2.0  2.5  3.0  -7.0 0.5  IN        IN          -2.4 good 4+2       3.3
+ 30  -2.0  2.5  3.0  +6.0 0.0  IN        IN          -1.7 good 2+3       3.3
+ 30  -2.0  2.5  3.0  +6.0 0.5  IN        IN          -1.9 good 3+2       3.3
+ 30  -2.0  4.0  0.5  -7.0 0.0  IN        IN          -2.1 good 4+3       3.3
+ 30  -2.0  4.0  0.5  -7.0 0.5  IN        IN          -2.0 good 4+2       3.6
+ 30  -2.0  4.0  0.5  +6.0 0.0  IN        IN          -1.8 good 4+3       3.3
+ 30  -2.0  4.0  0.5  +6.0 0.5  IN        IN          -1.8 good 4+2       3.4
+ 30  -2.0  4.0  3.0  -7.0 0.0  IN        IN          -2.5 good 4+3       3.3
+ 30  -2.0  4.0  3.0  -7.0 0.5  IN        IN          -2.2 good 4+2       3.2
+ 30  -2.0  4.0  3.0  +6.0 0.0  IN        IN          -1.0 good 4+3       3.3
+ 30  -2.0  4.0  3.0  +6.0 0.5  IN        IN          -1.7 good 4+2       3.3
+ 30  -2.0  6.0  0.5  -7.0 0.0  IN        IN          -2.1 good 4+3       3.6
+ 30  -2.0  6.0  0.5  -7.0 0.5  IN        IN          -2.1 good 4+2       3.4
+ 30  -2.0  6.0  0.5  +6.0 0.0  IN        IN          -1.9 good 4+3       3.2
+ 30  -2.0  6.0  0.5  +6.0 0.5  IN        IN          -2.0 good 4+2       3.3
+ 30  -2.0  6.0  3.0  -7.0 0.0  IN        IN          -2.4 good 4+3       3.3
+ 30  -2.0  6.0  3.0  -7.0 0.5  IN        IN          -2.1 good 4+2       3.3
+ 30  -2.0  6.0  3.0  +6.0 0.0  IN        IN          -1.4 good 4+3       3.3
+ 30  -2.0  6.0  3.0  +6.0 0.5  IN        IN          -1.8 good 4+2       3.3
+ 30  +0.0  2.5  0.5  -7.0 0.0  IN        TOO_CLOSE   +0.1 good 4+3       3.3  <-- wrong
+ 30  +0.0  2.5  0.5  -7.0 0.5  IN        TOO_CLOSE   +0.1 good 4+2       3.3  <-- wrong
+ 30  +0.0  2.5  0.5  +6.0 0.0  IN        TOO_CLOSE   +0.6 good 4+3       3.2  <-- wrong
+ 30  +0.0  2.5  0.5  +6.0 0.5  IN        TOO_CLOSE   +0.5 good 4+2       3.3  <-- wrong
+ 30  +0.0  2.5  3.0  -7.0 0.0  IN        IN          -0.5 good 4+3       3.2
+ 30  +0.0  2.5  3.0  -7.0 0.5  IN        IN          -0.2 good 4+2       3.3
+ 30  +0.0  2.5  3.0  +6.0 0.0  IN        TOO_CLOSE   +0.6 good 2+3       3.3  <-- wrong
+ 30  +0.0  2.5  3.0  +6.0 0.5  IN        TOO_CLOSE   +0.3 good 3+2       3.3  <-- wrong
+ 30  +0.0  4.0  0.5  -7.0 0.0  IN        TOO_CLOSE   +0.1 good 4+3       3.2  <-- wrong
+ 30  +0.0  4.0  0.5  -7.0 0.5  IN        TOO_CLOSE   +0.1 good 4+2       3.3  <-- wrong
+ 30  +0.0  4.0  0.5  +6.0 0.0  IN        TOO_CLOSE   +0.4 good 4+3       3.2  <-- wrong
+ 30  +0.0  4.0  0.5  +6.0 0.5  IN        TOO_CLOSE   +0.3 good 4+2       3.4  <-- wrong
+ 30  +0.0  4.0  3.0  -7.0 0.0  IN        IN          -0.4 good 4+3       3.2
+ 30  +0.0  4.0  3.0  -7.0 0.5  IN        IN          -0.1 good 4+2       3.3
+ 30  +0.0  4.0  3.0  +6.0 0.0  IN        TOO_CLOSE   +1.2 good 4+3       3.3  <-- wrong
+ 30  +0.0  4.0  3.0  +6.0 0.5  IN        TOO_CLOSE   +0.5 good 4+2       3.3  <-- wrong
+ 30  +0.0  6.0  0.5  -7.0 0.0  IN        IN          -0.0 good 4+3       3.3
+ 30  +0.0  6.0  0.5  -7.0 0.5  IN        IN          -0.1 good 4+2       3.4
+ 30  +0.0  6.0  0.5  +6.0 0.0  IN        TOO_CLOSE   +0.1 good 4+3       3.3  <-- wrong
+ 30  +0.0  6.0  0.5  +6.0 0.5  IN        TOO_CLOSE   +0.1 good 4+2       3.2  <-- wrong
+ 30  +0.0  6.0  3.0  -7.0 0.0  IN        IN          -0.4 good 4+3       3.2
+ 30  +0.0  6.0  3.0  -7.0 0.5  IN        IN          -0.2 good 4+2       3.3
+ 30  +0.0  6.0  3.0  +6.0 0.0  IN        TOO_CLOSE   +0.6 good 4+3       3.3  <-- wrong
+ 30  +0.0  6.0  3.0  +6.0 0.5  IN        TOO_CLOSE   +0.4 good 4+2       3.4  <-- wrong
+ 30  +1.0  2.5  0.5  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.2 good 4+3       3.4
+ 30  +1.0  2.5  0.5  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.2 good 4+2       3.2
+ 30  +1.0  2.5  0.5  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.7 good 4+3       3.3
+ 30  +1.0  2.5  0.5  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.7 good 4+2       3.3
+ 30  +1.0  2.5  3.0  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +0.6 good 4+3       3.3
+ 30  +1.0  2.5  3.0  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +0.8 good 4+2       3.3
+ 30  +1.0  2.5  3.0  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.6 good 2+3       3.3
+ 30  +1.0  2.5  3.0  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.4 good 3+2       3.3
+ 30  +1.0  4.0  0.5  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.2 good 4+3       3.2
+ 30  +1.0  4.0  0.5  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.1 good 4+2       3.2
+ 30  +1.0  4.0  0.5  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.4 good 4+3       3.3
+ 30  +1.0  4.0  0.5  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.5 good 4+2       3.3
+ 30  +1.0  4.0  3.0  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +0.7 good 4+3       3.3
+ 30  +1.0  4.0  3.0  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +0.9 good 4+2       3.3
+ 30  +1.0  4.0  3.0  +6.0 0.0  TOO_CLOSE OUT         +2.2 good 4+3       3.2  <-- wrong
+ 30  +1.0  4.0  3.0  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.6 good 4+2       3.3
+ 30  +1.0  6.0  0.5  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.0 good 4+3       3.3
+ 30  +1.0  6.0  0.5  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.0 good 4+2       3.4
+ 30  +1.0  6.0  0.5  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.3 good 4+3       3.3
+ 30  +1.0  6.0  0.5  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.3 good 4+2       3.3
+ 30  +1.0  6.0  3.0  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +0.7 good 4+3       3.3
+ 30  +1.0  6.0  3.0  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +0.9 good 4+2       3.3
+ 30  +1.0  6.0  3.0  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.7 good 4+3       3.3
+ 30  +1.0  6.0  3.0  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.3 good 4+2       3.3
+ 30  +2.5  2.5  0.5  -7.0 0.0  OUT       OUT         +2.9 good 4+3       3.3
+ 30  +2.5  2.5  0.5  -7.0 0.5  OUT       OUT         +2.8 good 4+2       3.2
+ 30  +2.5  2.5  0.5  +6.0 0.0  OUT       OUT         +3.4 good 4+3       3.2
+ 30  +2.5  2.5  0.5  +6.0 0.5  OUT       OUT         +3.3 good 4+2       3.3
+ 30  +2.5  2.5  3.0  -7.0 0.0  OUT       OUT         +2.2 good 4+3       3.3
+ 30  +2.5  2.5  3.0  -7.0 0.5  OUT       OUT         +2.4 good 4+2       3.3
+ 30  +2.5  2.5  3.0  +6.0 0.0  OUT       OUT         +3.3 good 2+3       3.3
+ 30  +2.5  2.5  3.0  +6.0 0.5  OUT       OUT         +3.1 good 3+2       3.5
+ 30  +2.5  4.0  0.5  -7.0 0.0  OUT       OUT         +2.7 good 4+3       3.3
+ 30  +2.5  4.0  0.5  -7.0 0.5  OUT       OUT         +2.7 good 4+2       3.3
+ 30  +2.5  4.0  0.5  +6.0 0.0  OUT       OUT         +3.1 good 4+3       3.3
+ 30  +2.5  4.0  0.5  +6.0 0.5  OUT       OUT         +3.1 good 4+2       3.2
+ 30  +2.5  4.0  3.0  -7.0 0.0  OUT       OUT         +2.3 good 4+3       3.3
+ 30  +2.5  4.0  3.0  -7.0 0.5  OUT       OUT         +2.5 good 4+2       3.3
+ 30  +2.5  4.0  3.0  +6.0 0.0  OUT       OUT         +3.8 good 4+3       3.3
+ 30  +2.5  4.0  3.0  +6.0 0.5  OUT       OUT         +3.2 good 4+2       3.3
+ 30  +2.5  6.0  0.5  -7.0 0.0  OUT       OUT         +2.7 good 4+3       3.2
+ 30  +2.5  6.0  0.5  -7.0 0.5  OUT       OUT         +2.6 good 4+2       3.3
+ 30  +2.5  6.0  0.5  +6.0 0.0  OUT       OUT         +2.8 good 4+3       3.3
+ 30  +2.5  6.0  0.5  +6.0 0.5  OUT       OUT         +2.8 good 4+2       3.5
+ 30  +2.5  6.0  3.0  -7.0 0.0  OUT       OUT         +2.4 good 4+3       3.3
+ 30  +2.5  6.0  3.0  -7.0 0.5  OUT       OUT         +2.4 good 4+2       3.3
+ 30  +2.5  6.0  3.0  +6.0 0.0  OUT       OUT         +3.3 good 4+3       3.3
+ 30  +2.5  6.0  3.0  +6.0 0.5  OUT       OUT         +3.0 good 4+2       3.3
+ 30  +4.0  2.5  0.5  -7.0 0.0  OUT       OUT         +4.4 good 4+3       3.4
+ 30  +4.0  2.5  0.5  -7.0 0.5  OUT       OUT         +4.3 good 4+2       3.3
+ 30  +4.0  2.5  0.5  +6.0 0.0  OUT       OUT         +5.0 good 4+3       3.4
+ 30  +4.0  2.5  0.5  +6.0 0.5  OUT       OUT         +5.1 good 4+2       3.3
+ 30  +4.0  2.5  3.0  -7.0 0.0  OUT       OUT         +3.8 good 4+3       3.3
+ 30  +4.0  2.5  3.0  -7.0 0.5  OUT       OUT         +4.0 good 4+2       3.3
+ 30  +4.0  2.5  3.0  +6.0 0.0  OUT       OUT         +5.1 good 3+3       3.2
+ 30  +4.0  2.5  3.0  +6.0 0.5  OUT       OUT         +4.7 good 3+2       3.3
+ 30  +4.0  4.0  0.5  -7.0 0.0  OUT       OUT         +4.4 good 4+3       3.3
+ 30  +4.0  4.0  0.5  -7.0 0.5  OUT       OUT         +4.3 good 4+2       3.4
+ 30  +4.0  4.0  0.5  +6.0 0.0  OUT       OUT         +4.7 good 4+3       3.3
+ 30  +4.0  4.0  0.5  +6.0 0.5  OUT       OUT         +4.8 good 4+2       3.3
+ 30  +4.0  4.0  3.0  -7.0 0.0  OUT       OUT         +3.9 good 4+3       3.3
+ 30  +4.0  4.0  3.0  -7.0 0.5  OUT       OUT         +4.1 good 4+2       3.3
+ 30  +4.0  4.0  3.0  +6.0 0.0  OUT       OUT         +5.5 good 4+3       3.3
+ 30  +4.0  4.0  3.0  +6.0 0.5  OUT       OUT         +5.0 good 4+2       3.4
+ 30  +4.0  6.0  0.5  -7.0 0.0  OUT       OUT         +4.2 good 4+3       3.3
+ 30  +4.0  6.0  0.5  -7.0 0.5  OUT       OUT         +4.1 good 4+2       3.3
+ 30  +4.0  6.0  0.5  +6.0 0.0  OUT       OUT         +4.4 good 4+3       3.2
+ 30  +4.0  6.0  0.5  +6.0 0.5  OUT       OUT         +4.4 good 4+2       3.3
+ 30  +4.0  6.0  3.0  -7.0 0.0  OUT       OUT         +3.8 good 4+3       3.3
+ 30  +4.0  6.0  3.0  -7.0 0.5  OUT       OUT         +4.0 good 4+2       3.4
+ 30  +4.0  6.0  3.0  +6.0 0.0  OUT       OUT         +4.9 good 4+3       3.3
+ 30  +4.0  6.0  3.0  +6.0 0.5  OUT       OUT         +4.5 good 4+2       3.3
+ 30  +8.0  2.5  0.5  -7.0 0.0  OUT       OUT         +8.8 good 4+3       3.2
+ 30  +8.0  2.5  0.5  -7.0 0.5  OUT       OUT         +8.6 good 4+2       3.4
+ 30  +8.0  2.5  0.5  +6.0 0.0  OUT       OUT         +9.4 good 4+3       3.3
+ 30  +8.0  2.5  0.5  +6.0 0.5  OUT       OUT         +9.6 good 4+2       3.3
+ 30  +8.0  2.5  3.0  -7.0 0.0  OUT       OUT         +8.2 good 4+3       3.3
+ 30  +8.0  2.5  3.0  -7.0 0.5  OUT       OUT         +8.2 good 4+2       3.4
+ 30  +8.0  2.5  3.0  +6.0 0.0  OUT       OUT         +9.4 good 3+3       3.3
+ 30  +8.0  2.5  3.0  +6.0 0.5  OUT       OUT         +9.2 good 3+2       3.3
+ 30  +8.0  4.0  0.5  -7.0 0.0  OUT       OUT         +8.7 good 4+3       3.2
+ 30  +8.0  4.0  0.5  -7.0 0.5  OUT       OUT         +8.6 good 4+2       3.4
+ 30  +8.0  4.0  0.5  +6.0 0.0  OUT       OUT         +9.0 good 4+3       3.3
+ 30  +8.0  4.0  0.5  +6.0 0.5  OUT       OUT         +9.2 good 4+2       3.3
+ 30  +8.0  4.0  3.0  -7.0 0.0  OUT       OUT         +8.2 good 4+3       3.2
+ 30  +8.0  4.0  3.0  -7.0 0.5  OUT       OUT         +8.3 good 4+2       3.3
+ 30  +8.0  4.0  3.0  +6.0 0.0  OUT       OUT         +9.8 good 4+3       3.3
+ 30  +8.0  4.0  3.0  +6.0 0.5  OUT       OUT         +9.3 good 4+2       3.5
+ 30  +8.0  6.0  0.5  -7.0 0.0  OUT       OUT         +8.4 good 4+3       3.4
+ 30  +8.0  6.0  0.5  -7.0 0.5  OUT       OUT         +8.2 good 4+2       3.3
+ 30  +8.0  6.0  0.5  +6.0 0.0  OUT       OUT         +8.6 good 4+3       3.3
+ 30  +8.0  6.0  0.5  +6.0 0.5  OUT       OUT         +8.7 good 4+2       3.3
+ 30  +8.0  6.0  3.0  -7.0 0.0  OUT       OUT         +8.1 good 4+3       3.3
+ 30  +8.0  6.0  3.0  -7.0 0.5  OUT       OUT         +8.2 good 4+2       3.3
+ 30  +8.0  6.0  3.0  +6.0 0.0  OUT       OUT         +9.2 good 4+3       3.3
+ 30  +8.0  6.0  3.0  +6.0 0.5  OUT       OUT         +8.9 good 4+2       3.4
+ 60  -6.0  2.5  0.5  -7.0 0.0  IN        IN          -6.2 good 4+2       2.6
+ 60  -6.0  2.5  0.5  -7.0 0.5  IN        IN          -6.3 good 4+3       2.7
+ 60  -6.0  2.5  0.5  +6.0 0.0  IN        IN          -6.3 good 4+2       2.7
+ 60  -6.0  2.5  0.5  +6.0 0.5  IN        IN          -6.2 good 4+3       2.7
+ 60  -6.0  2.5  3.0  -7.0 0.0  IN        IN          -6.3 good 4+2       2.6
+ 60  -6.0  2.5  3.0  -7.0 0.5  IN        IN          -6.4 good 4+3       2.7
+ 60  -6.0  2.5  3.0  +6.0 0.0  IN        IN          -6.1 good 4+2       2.7
+ 60  -6.0  2.5  3.0  +6.0 0.5  IN        IN          -5.8 good 4+3       2.7
+ 60  -6.0  4.0  0.5  -7.0 0.0  IN        IN          -6.3 good 4+2       2.7
+ 60  -6.0  4.0  0.5  -7.0 0.5  IN        IN          -6.3 good 4+3       2.6
+ 60  -6.0  4.0  0.5  +6.0 0.0  IN        IN          -6.3 good 4+2       2.7
+ 60  -6.0  4.0  0.5  +6.0 0.5  IN        IN          -6.3 good 4+3       2.7
+ 60  -6.0  4.0  3.0  -7.0 0.0  IN        IN          -6.4 good 4+2       2.7
+ 60  -6.0  4.0  3.0  -7.0 0.5  IN        IN          -6.5 good 4+3       2.7
+ 60  -6.0  4.0  3.0  +6.0 0.0  IN        IN          -6.3 good 4+2       2.7
+ 60  -6.0  4.0  3.0  +6.0 0.5  IN        IN          -6.1 good 4+3       2.7
+ 60  -6.0  6.0  0.5  -7.0 0.0  IN        IN          -6.3 good 4+2       2.7
+ 60  -6.0  6.0  0.5  -7.0 0.5  IN        IN          -6.3 good 4+3       2.7
+ 60  -6.0  6.0  0.5  +6.0 0.0  IN        IN          -6.3 good 4+2       2.7
+ 60  -6.0  6.0  0.5  +6.0 0.5  IN        IN          -6.2 good 4+3       2.7
+ 60  -6.0  6.0  3.0  -7.0 0.0  IN        IN          -6.3 good 4+2       2.7
+ 60  -6.0  6.0  3.0  -7.0 0.5  IN        IN          -6.3 good 4+3       2.8
+ 60  -6.0  6.0  3.0  +6.0 0.0  IN        IN          -6.4 good 4+2       2.6
+ 60  -6.0  6.0  3.0  +6.0 0.5  IN        IN          -6.1 good 4+3       2.6
+ 60  -2.0  2.5  0.5  -7.0 0.0  IN        IN          -1.9 good 4+2       2.7
+ 60  -2.0  2.5  0.5  -7.0 0.5  IN        IN          -1.9 good 4+3       2.6
+ 60  -2.0  2.5  0.5  +6.0 0.0  IN        IN          -1.8 good 4+2       2.7
+ 60  -2.0  2.5  0.5  +6.0 0.5  IN        IN          -1.8 good 4+3       2.7
+ 60  -2.0  2.5  3.0  -7.0 0.0  IN        IN          -2.0 good 4+2       2.7
+ 60  -2.0  2.5  3.0  -7.0 0.5  IN        IN          -2.1 good 4+3       2.6
+ 60  -2.0  2.5  3.0  +6.0 0.0  IN        IN          -1.8 good 4+2       2.7
+ 60  -2.0  2.5  3.0  +6.0 0.5  IN        IN          -1.5 good 4+3       2.8
+ 60  -2.0  4.0  0.5  -7.0 0.0  IN        IN          -2.0 good 4+2       2.6
+ 60  -2.0  4.0  0.5  -7.0 0.5  IN        IN          -2.0 good 4+3       2.7
+ 60  -2.0  4.0  0.5  +6.0 0.0  IN        IN          -1.9 good 4+2       2.7
+ 60  -2.0  4.0  0.5  +6.0 0.5  IN        IN          -1.9 good 4+3       2.6
+ 60  -2.0  4.0  3.0  -7.0 0.0  IN        IN          -2.1 good 4+2       2.7
+ 60  -2.0  4.0  3.0  -7.0 0.5  IN        IN          -2.1 good 4+3       2.7
+ 60  -2.0  4.0  3.0  +6.0 0.0  IN        IN          -1.9 good 4+2       2.7
+ 60  -2.0  4.0  3.0  +6.0 0.5  IN        IN          -1.7 good 4+3       2.6
+ 60  -2.0  6.0  0.5  -7.0 0.0  IN        IN          -2.1 good 4+2       2.7
+ 60  -2.0  6.0  0.5  -7.0 0.5  IN        IN          -2.1 good 4+3       2.6
+ 60  -2.0  6.0  0.5  +6.0 0.0  IN        IN          -2.0 good 4+2       2.7
+ 60  -2.0  6.0  0.5  +6.0 0.5  IN        IN          -2.0 good 4+3       2.7
+ 60  -2.0  6.0  3.0  -7.0 0.0  IN        IN          -2.1 good 4+2       2.8
+ 60  -2.0  6.0  3.0  -7.0 0.5  IN        IN          -2.2 good 4+3       2.6
+ 60  -2.0  6.0  3.0  +6.0 0.0  IN        IN          -2.0 good 4+2       2.7
+ 60  -2.0  6.0  3.0  +6.0 0.5  IN        IN          -1.8 good 4+3       2.7
+ 60  +0.0  2.5  0.5  -7.0 0.0  IN        TOO_CLOSE   +0.3 good 4+2       2.7  <-- wrong
+ 60  +0.0  2.5  0.5  -7.0 0.5  IN        TOO_CLOSE   +0.3 good 4+3       2.7  <-- wrong
+ 60  +0.0  2.5  0.5  +6.0 0.0  IN        TOO_CLOSE   +0.3 good 4+2       2.7  <-- wrong
+ 60  +0.0  2.5  0.5  +6.0 0.5  IN        TOO_CLOSE   +0.4 good 4+3       2.7  <-- wrong
+ 60  +0.0  2.5  3.0  -7.0 0.0  IN        TOO_CLOSE   +0.2 good 4+2       2.6  <-- wrong
+ 60  +0.0  2.5  3.0  -7.0 0.5  IN        TOO_CLOSE   +0.1 good 4+3       2.7  <-- wrong
+ 60  +0.0  2.5  3.0  +6.0 0.0  IN        TOO_CLOSE   +0.4 good 4+2       2.7  <-- wrong
+ 60  +0.0  2.5  3.0  +6.0 0.5  IN        TOO_CLOSE   +0.7 good 4+3       2.7  <-- wrong
+ 60  +0.0  4.0  0.5  -7.0 0.0  IN        TOO_CLOSE   +0.1 good 4+2       2.7  <-- wrong
+ 60  +0.0  4.0  0.5  -7.0 0.5  IN        TOO_CLOSE   +0.1 good 4+3       2.7  <-- wrong
+ 60  +0.0  4.0  0.5  +6.0 0.0  IN        TOO_CLOSE   +0.2 good 4+2       2.7  <-- wrong
+ 60  +0.0  4.0  0.5  +6.0 0.5  IN        TOO_CLOSE   +0.2 good 4+3       2.8  <-- wrong
+ 60  +0.0  4.0  3.0  -7.0 0.0  IN        TOO_CLOSE   +0.1 good 4+2       2.9  <-- wrong
+ 60  +0.0  4.0  3.0  -7.0 0.5  IN        TOO_CLOSE   +0.1 good 4+3       2.7  <-- wrong
+ 60  +0.0  4.0  3.0  +6.0 0.0  IN        TOO_CLOSE   +0.2 good 4+2       2.7  <-- wrong
+ 60  +0.0  4.0  3.0  +6.0 0.5  IN        TOO_CLOSE   +0.4 good 4+3       2.9  <-- wrong
+ 60  +0.0  6.0  0.5  -7.0 0.0  IN        TOO_CLOSE   +0.0 good 4+2       2.8  <-- wrong
+ 60  +0.0  6.0  0.5  -7.0 0.5  IN        TOO_CLOSE   +0.0 good 4+3       2.8  <-- wrong
+ 60  +0.0  6.0  0.5  +6.0 0.0  IN        TOO_CLOSE   +0.1 good 4+2       2.9  <-- wrong
+ 60  +0.0  6.0  0.5  +6.0 0.5  IN        TOO_CLOSE   +0.1 good 4+3       2.8  <-- wrong
+ 60  +0.0  6.0  3.0  -7.0 0.0  IN        TOO_CLOSE   +0.1 good 4+2       2.8  <-- wrong
+ 60  +0.0  6.0  3.0  -7.0 0.5  IN        IN          -0.0 good 4+3       2.9
+ 60  +0.0  6.0  3.0  +6.0 0.0  IN        TOO_CLOSE   +0.0 good 4+2       2.9  <-- wrong
+ 60  +0.0  6.0  3.0  +6.0 0.5  IN        TOO_CLOSE   +0.1 good 4+3       2.7  <-- wrong
+ 60  +1.0  2.5  0.5  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.3 good 4+2       2.9
+ 60  +1.0  2.5  0.5  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.4 good 4+3       2.8
+ 60  +1.0  2.5  0.5  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.5 good 4+2       2.8
+ 60  +1.0  2.5  0.5  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.5 good 4+3       4.0
+ 60  +1.0  2.5  3.0  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.2 good 4+2       3.1
+ 60  +1.0  2.5  3.0  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.2 good 4+3       2.8
+ 60  +1.0  2.5  3.0  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.5 good 4+2       3.0
+ 60  +1.0  2.5  3.0  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.8 good 4+3       2.8
+ 60  +1.0  4.0  0.5  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.3 good 4+2       2.8
+ 60  +1.0  4.0  0.5  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.3 good 4+3       2.9
+ 60  +1.0  4.0  0.5  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.3 good 4+2       2.8
+ 60  +1.0  4.0  0.5  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.3 good 4+3       2.9
+ 60  +1.0  4.0  3.0  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.2 good 4+2       2.9
+ 60  +1.0  4.0  3.0  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.2 good 4+3       2.8
+ 60  +1.0  4.0  3.0  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.4 good 4+2       2.8
+ 60  +1.0  4.0  3.0  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.5 good 4+3       2.9
+ 60  +1.0  6.0  0.5  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.1 good 4+2       2.9
+ 60  +1.0  6.0  0.5  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.1 good 4+3       2.8
+ 60  +1.0  6.0  0.5  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.2 good 4+2       2.9
+ 60  +1.0  6.0  0.5  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.2 good 4+3       2.8
+ 60  +1.0  6.0  3.0  -7.0 0.0  TOO_CLOSE TOO_CLOSE   +1.0 good 4+2       2.8
+ 60  +1.0  6.0  3.0  -7.0 0.5  TOO_CLOSE TOO_CLOSE   +1.0 good 4+3       2.9
+ 60  +1.0  6.0  3.0  +6.0 0.0  TOO_CLOSE TOO_CLOSE   +1.2 good 4+2       2.8
+ 60  +1.0  6.0  3.0  +6.0 0.5  TOO_CLOSE TOO_CLOSE   +1.3 good 4+3       2.8
+ 60  +2.5  2.5  0.5  -7.0 0.0  OUT       OUT         +3.0 good 4+2       2.9
+ 60  +2.5  2.5  0.5  -7.0 0.5  OUT       OUT         +3.0 good 4+3       2.8
+ 60  +2.5  2.5  0.5  +6.0 0.0  OUT       OUT         +3.1 good 4+2       2.8
+ 60  +2.5  2.5  0.5  +6.0 0.5  OUT       OUT         +3.1 good 4+3       2.9
+ 60  +2.5  2.5  3.0  -7.0 0.0  OUT       OUT         +2.8 good 4+2       2.8
+ 60  +2.5  2.5  3.0  -7.0 0.5  OUT       OUT         +2.8 good 4+3       2.8
+ 60  +2.5  2.5  3.0  +6.0 0.0  OUT       OUT         +3.2 good 4+2       2.9
+ 60  +2.5  2.5  3.0  +6.0 0.5  OUT       OUT         +3.4 good 4+3       2.8
+ 60  +2.5  4.0  0.5  -7.0 0.0  OUT       OUT         +2.9 good 4+2       2.8
+ 60  +2.5  4.0  0.5  -7.0 0.5  OUT       OUT         +2.9 good 4+3       3.0
+ 60  +2.5  4.0  0.5  +6.0 0.0  OUT       OUT         +2.9 good 4+2       2.9
+ 60  +2.5  4.0  0.5  +6.0 0.5  OUT       OUT         +2.9 good 4+3       2.8
+ 60  +2.5  4.0  3.0  -7.0 0.0  OUT       OUT         +2.8 good 4+2       2.9
+ 60  +2.5  4.0  3.0  -7.0 0.5  OUT       OUT         +2.8 good 4+3       2.8
+ 60  +2.5  4.0  3.0  +6.0 0.0  OUT       OUT         +2.9 good 4+2       2.8
+ 60  +2.5  4.0  3.0  +6.0 0.5  OUT       OUT         +3.1 good 4+3       2.9
+ 60  +2.5  6.0  0.5  -7.0 0.0  OUT       OUT         +2.7 good 4+2       2.8
+ 60  +2.5  6.0  0.5  -7.0 0.5  OUT       OUT         +2.7 good 4+3       2.8
+ 60  +2.5  6.0  0.5  +6.0 0.0  OUT       OUT         +2.7 good 4+2       2.9
+ 60  +2.5  6.0  0.5  +6.0 0.5  OUT       OUT         +2.7 good 4+3       2.7
+ 60  +2.5  6.0  3.0  -7.0 0.0  OUT       OUT         +2.6 good 4+2       2.8
+ 60  +2.5  6.0  3.0  -7.0 0.5  OUT       OUT         +2.6 good 4+3       2.9
+ 60  +2.5  6.0  3.0  +6.0 0.0  OUT       OUT         +2.7 good 4+2       2.8
+ 60  +2.5  6.0  3.0  +6.0 0.5  OUT       OUT         +2.8 good 4+3       2.7
+ 60  +4.0  2.5  0.5  -7.0 0.0  OUT       OUT         +4.5 good 4+2       2.9
+ 60  +4.0  2.5  0.5  -7.0 0.5  OUT       OUT         +4.6 good 4+3       2.8
+ 60  +4.0  2.5  0.5  +6.0 0.0  OUT       OUT         +4.7 good 4+2       2.7
+ 60  +4.0  2.5  0.5  +6.0 0.5  OUT       OUT         +4.8 good 4+3       2.9
+ 60  +4.0  2.5  3.0  -7.0 0.0  OUT       OUT         +4.5 good 4+2       2.8
+ 60  +4.0  2.5  3.0  -7.0 0.5  OUT       OUT         +4.4 good 4+3       2.7
+ 60  +4.0  2.5  3.0  +6.0 0.0  OUT       OUT         +4.8 good 4+2       2.9
+ 60  +4.0  2.5  3.0  +6.0 0.5  OUT       OUT         +5.1 good 4+3       2.8
+ 60  +4.0  4.0  0.5  -7.0 0.0  OUT       OUT         +4.4 good 4+2       2.7
+ 60  +4.0  4.0  0.5  -7.0 0.5  OUT       OUT         +4.5 good 4+3       2.8
+ 60  +4.0  4.0  0.5  +6.0 0.0  OUT       OUT         +4.6 good 4+2       2.9
+ 60  +4.0  4.0  0.5  +6.0 0.5  OUT       OUT         +4.6 good 4+3       2.8
+ 60  +4.0  4.0  3.0  -7.0 0.0  OUT       OUT         +4.4 good 4+2       2.8
+ 60  +4.0  4.0  3.0  -7.0 0.5  OUT       OUT         +4.4 good 4+3       2.8
+ 60  +4.0  4.0  3.0  +6.0 0.0  OUT       OUT         +4.6 good 4+2       2.7
+ 60  +4.0  4.0  3.0  +6.0 0.5  OUT       OUT         +4.8 good 4+3       2.8
+ 60  +4.0  6.0  0.5  -7.0 0.0  OUT       OUT         +4.2 good 4+2       2.9
+ 60  +4.0  6.0  0.5  -7.0 0.5  OUT       OUT         +4.2 good 4+3       2.8
+ 60  +4.0  6.0  0.5  +6.0 0.0  OUT       OUT         +4.3 good 4+2       2.8
+ 60  +4.0  6.0  0.5  +6.0 0.5  OUT       OUT         +4.3 good 4+3       2.8
+ 60  +4.0  6.0  3.0  -7.0 0.0  OUT       OUT         +4.2 good 4+2       2.7
+ 60  +4.0  6.0  3.0  -7.0 0.5  OUT       OUT         +4.2 good 4+3       2.7
+ 60  +4.0  6.0  3.0  +6.0 0.0  OUT       OUT         +4.4 good 4+2       2.8
+ 60  +4.0  6.0  3.0  +6.0 0.5  OUT       OUT         +4.4 good 4+3       2.8
+ 60  +8.0  2.5  0.5  -7.0 0.0  OUT       OUT         +8.9 good 4+2       2.7
+ 60  +8.0  2.5  0.5  -7.0 0.5  OUT       OUT         +8.9 good 4+3       2.8
+ 60  +8.0  2.5  0.5  +6.0 0.0  OUT       OUT         +9.1 good 4+2       2.7
+ 60  +8.0  2.5  0.5  +6.0 0.5  OUT       OUT         +9.1 good 4+3       2.7
+ 60  +8.0  2.5  3.0  -7.0 0.0  OUT       OUT         +8.8 good 4+2       2.8
+ 60  +8.0  2.5  3.0  -7.0 0.5  OUT       OUT         +8.8 good 4+3       2.7
+ 60  +8.0  2.5  3.0  +6.0 0.0  OUT       OUT         +9.3 good 4+2       2.7
+ 60  +8.0  2.5  3.0  +6.0 0.5  OUT       OUT         +9.4 good 4+3       2.8
+ 60  +8.0  4.0  0.5  -7.0 0.0  OUT       OUT         +8.8 good 4+2       2.7
+ 60  +8.0  4.0  0.5  -7.0 0.5  OUT       OUT         +8.8 good 4+3       2.7
+ 60  +8.0  4.0  0.5  +6.0 0.0  OUT       OUT         +8.9 good 4+2       2.7
+ 60  +8.0  4.0  0.5  +6.0 0.5  OUT       OUT         +8.9 good 4+3       2.8
+ 60  +8.0  4.0  3.0  -7.0 0.0  OUT       OUT         +8.7 good 4+2       2.7
+ 60  +8.0  4.0  3.0  -7.0 0.5  OUT       OUT         +8.7 good 4+3       2.8
+ 60  +8.0  4.0  3.0  +6.0 0.0  OUT       OUT         +8.9 good 4+2       2.8
+ 60  +8.0  4.0  3.0  +6.0 0.5  OUT       OUT         +9.1 good 4+3       2.7
+ 60  +8.0  6.0  0.5  -7.0 0.0  OUT       OUT         +8.5 good 4+2       2.7
+ 60  +8.0  6.0  0.5  -7.0 0.5  OUT       OUT         +8.5 good 4+3       2.8
+ 60  +8.0  6.0  0.5  +6.0 0.0  OUT       OUT         +8.6 good 4+2       2.7
+ 60  +8.0  6.0  0.5  +6.0 0.5  OUT       OUT         +8.6 good 4+3       2.7
+ 60  +8.0  6.0  3.0  -7.0 0.0  OUT       OUT         +8.4 good 4+2       2.7
+ 60  +8.0  6.0  3.0  -7.0 0.5  OUT       OUT         +8.4 good 4+3       2.7
+ 60  +8.0  6.0  3.0  +6.0 0.0  OUT       OUT         +8.6 good 4+2       2.7
+ 60  +8.0  6.0  3.0  +6.0 0.5  OUT       OUT         +8.7 good 4+3       2.8
+
+all                n=336 call-correct 99.7%  exact 88.1%  no-call  0.0%  missed  0.0%  harmful  0.3%  false-extra 0   gap MAE 0.40 cm  p90 0.80 cm   3.0 ms/frame
+fps 30             n=168 call-correct 99.4%  exact 89.9%  no-call  0.0%  missed  0.0%  harmful  0.6%  false-extra 0   gap MAE 0.44 cm  p90 1.00 cm   3.3 ms/frame
+fps 60             n=168 call-correct 100.0%  exact 86.3%  no-call  0.0%  missed  0.0%  harmful  0.0%  false-extra 0   gap MAE 0.37 cm  p90 0.80 cm   2.8 ms/frame
+depth 2.5 m        n=112 call-correct 100.0%  exact 87.5%  no-call  0.0%  missed  0.0%  harmful  0.0%  false-extra 0   gap MAE 0.49 cm  p90 1.00 cm   3.1 ms/frame
+depth 4.0 m        n=112 call-correct 99.1%  exact 86.6%  no-call  0.0%  missed  0.0%  harmful  0.9%  false-extra 0   gap MAE 0.44 cm  p90 0.90 cm   3.0 ms/frame
+depth 6.0 m        n=112 call-correct 100.0%  exact 90.2%  no-call  0.0%  missed  0.0%  harmful  0.0%  false-extra 0   gap MAE 0.27 cm  p90 0.60 cm   3.0 ms/frame
+lateral 0.5 m/s    n=168 call-correct 100.0%  exact 86.9%  no-call  0.0%  missed  0.0%  harmful  0.0%  false-extra 0   gap MAE 0.36 cm  p90 0.80 cm   3.0 ms/frame
+lateral 3.0 m/s    n=168 call-correct 99.4%  exact 89.3%  no-call  0.0%  missed  0.0%  harmful  0.6%  false-extra 0   gap MAE 0.44 cm  p90 0.90 cm   3.0 ms/frame
+along -7.0 m/s     n=168 call-correct 100.0%  exact 91.1%  no-call  0.0%  missed  0.0%  harmful  0.0%  false-extra 0   gap MAE 0.28 cm  p90 0.60 cm   3.0 ms/frame
+along +6.0 m/s     n=168 call-correct 99.4%  exact 85.1%  no-call  0.0%  missed  0.0%  harmful  0.6%  false-extra 0   gap MAE 0.53 cm  p90 1.10 cm   3.0 ms/frame
+|gap| <= 2.5 cm    n=192 call-correct 99.5%  exact 79.2%  no-call  0.0%  missed  0.0%  harmful  0.5%  false-extra 0   gap MAE 0.30 cm  p90 0.60 cm   3.0 ms/frame

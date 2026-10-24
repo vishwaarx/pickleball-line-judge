@@ -5,6 +5,7 @@
 .venv/
 __pycache__/
 *.pyc
+*.egg-info/
 .pytest_cache/
 
 # Node (e2e fake phones)

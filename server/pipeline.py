@@ -10,7 +10,9 @@ import base64
 import collections
 import json
 import logging
+import math
 import os
+import subprocess
 import threading
 import time
 import uuid
@@ -25,6 +27,7 @@ from judge.bounce import BounceDetector, BounceEvent, TrackPoint
 from judge.detector import BallDetector, hsv_range_from_bgr
 from judge.geometry import BALL_RADIUS_CM, LineCal, Verdict, judge_contact
 from judge.linescale import LineScale, fit_scale, measure_line, snap_line
+from judge.replay import flight_window, reconstruct as reconstruct_replay
 from judge.tracker import BallTracker
 
 log = logging.getLogger("pickle.cam")
@@ -34,6 +37,7 @@ RING_FRAMES = 150  # 2.5 s at 60 fps; ~1.4 GB for three 720p cameras
 PREVIEW_W = 480
 PREVIEW_INTERVAL = 0.25
 GUARD_INTERVAL = 2.0
+REPLAY_AFTER_S = 0.35  # keep following the ball this long after a bounce so the 3D replay sees the rebound
 
 COLOR_LINE = (80, 255, 120)
 COLOR_IN_TICK = (80, 255, 120)
@@ -61,10 +65,31 @@ class Settings:
     announce_in: bool = True
     low_quality_call_cm: float = 5.0  # with <2 frames on a side, still call if the gap is this clear
 
+    _LIMITS = {"margin_cm": (0.0, 10.0), "announce_window_cm": (0.0, 100.0), "low_quality_call_cm": (0.0, 50.0)}
+
     def update(self, d: dict) -> None:
+        """Apply the known keys. A bad value raises ValueError naming it, and then nothing is applied."""
+        if not isinstance(d, dict):
+            raise ValueError("settings must be an object")
+        new = {}
         for k, v in d.items():
-            if hasattr(self, k):
-                setattr(self, k, type(getattr(self, k))(v))
+            if k.startswith("_") or not hasattr(self, k):
+                continue
+            if isinstance(getattr(self, k), bool):
+                if not isinstance(v, bool):
+                    raise ValueError(f"{k} must be true or false")
+                new[k] = v
+                continue
+            try:
+                x = float(v) if not isinstance(v, bool) else math.nan
+            except (TypeError, ValueError):
+                x = math.nan
+            lo, hi = self._LIMITS.get(k, (-math.inf, math.inf))
+            if not lo <= x <= hi:  # also false for nan
+                raise ValueError(f"{k} must be a number from {lo:g} to {hi:g}")
+            new[k] = x
+        for k, v in new.items():
+            setattr(self, k, v)
 
 
 @dataclass
@@ -119,6 +144,7 @@ class CallEvent:
     reason: str = ""
     strip_url: str = ""
     confirmation: dict | None = None
+    replay: bool = False  # the evidence json carries a 3D reconstruction of the bounce
     seq: int = 0
     uid: str = field(default_factory=lambda: uuid.uuid4().hex[:10])
 
@@ -177,6 +203,7 @@ class CameraWorker(threading.Thread):
         self.seq = 0
         self._was_active = False
         self._scale_pending = False
+        self._replay_pending: dict | None = None  # last call, waiting for the rebound before its replay is built
         self._load_calibration()
 
     # ------------------------------------------------------------ frame input
@@ -337,18 +364,21 @@ class CameraWorker(threading.Thread):
             self._save_calibration()
         log.info("[%s] work size %s -> %s: calibration rescaled (x%.2f, x%.2f)", self.name_label, old, new, rx, ry)
 
-    def _background_gray(self):
-        """Median of a few spread-out ring frames, so a ball or a foot does not count as paint."""
+    def _background_gray(self, recent: bool = False):
+        """Median of a few spread-out ring frames, so a ball or a foot does not count as paint.
+
+        `recent` takes the newest frames instead, to see where the paint is right now (after a bump)."""
         if not self.ring:
             return None
         frames = list(self.ring)
         step = max(1, len(frames) // 7)
-        picks = [cv2.cvtColor(f[1], cv2.COLOR_BGR2GRAY) for f in frames[::step][-7:]]
+        chosen = frames[-7:] if recent else frames[::step][-7:]
+        picks = [cv2.cvtColor(f[1], cv2.COLOR_BGR2GRAY) for f in chosen]
         if len(picks) == 1:
             return picks[0]
         return np.median(np.stack(picks), axis=0).astype(np.uint8)
 
-    def _measure_line(self, min_frames: int = 8) -> bool:
+    def _measure_line(self, min_frames: int = 8, recent: bool = False) -> bool:
         """Snap the clicked line to the paint edge and fit the cm/px scale from the paint width.
 
         Returns True when the paint was found along the line. Never discards a scale we already have."""
@@ -356,7 +386,7 @@ class CameraWorker(threading.Thread):
             line = self.calib.line
             if line is None or len(self.ring) < min_frames:
                 return False
-            gray = self._background_gray()
+            gray = self._background_gray(recent=recent)
             samples = measure_line(gray, line)
             snapped = snap_line(line, samples)
             if snapped is not None:
@@ -384,13 +414,25 @@ class CameraWorker(threading.Thread):
             self.detector.set_color(None)
             self._save_calibration()
 
-    def rearm_guard(self) -> None:
+    def rearm_guard(self) -> bool:
+        """The operator put the phone back: resume calls only if the paint is where the line says it is now.
+
+        Returns False (and stays MOVED) when it is not, because calls would be judged against the old line."""
         with self._lock:
+            if self.calib.line is not None and not self._measure_line(min_frames=7, recent=True):
+                self.moved = True
+                self.moved_reason = "the line is not where it was calibrated - calibrate again"
+                self.moved_shift = 99.0
+                log.warning("[%s] re-arm refused: no paint edge at the calibrated line", self.name_label)
+                return False
             self.ref_patch = None
             self.moved = False
             self.moved_reason = ""
             self.moved_shift = 0.0
             self.guard_low_streak = 0
+            if self.calib.line is not None:
+                self._save_calibration()  # the paint check may have snapped the line by a pixel or two
+            return True
 
     def _latest_work_frame(self):
         return self.ring[-1][1] if self.ring else None
@@ -498,6 +540,8 @@ class CameraWorker(threading.Thread):
             self._was_active = False
         if ev is not None:
             self._handle_bounce(ev)
+        if self._replay_pending is not None and (t >= self._replay_pending["deadline"] or not self.tracker.active):
+            self._finish_replay()
 
         now = time.monotonic()
         self._proc_count += 1
@@ -526,6 +570,8 @@ class CameraWorker(threading.Thread):
 
     # ----------------------------------------------------------------- judge
     def _handle_bounce(self, ev: BounceEvent) -> None:
+        if self._replay_pending is not None:
+            self._finish_replay()  # a new bounce: the previous replay gets the track it has so far
         with self._lock:  # one consistent view of line/scale/moved for this call
             line = self.calib.line
             scale = self.calib.scale
@@ -575,12 +621,16 @@ class CameraWorker(threading.Thread):
                  self.name_label, call.verdict, call.gap_cm, call.gap_px, call.quality, call.n_before,
                  call.n_after, self.fps_in, ev.x, y_contact, r_eff, ev.r, call.reason)
         if announce and self.settings.speak and self.speaker is not None:
-            self.speaker.say(self._phrase(call))  # speak first; the strip takes ~50 ms to write
-        zooms, contact_idx = [], 0
+            # speak first; the strip takes ~50 ms to write. An OUT cuts in ahead of anything else.
+            self.speaker.say(self._phrase(call), urgent=verdict == Verdict.OUT)
+        zooms, contact_idx, evidence_json = [], 0, ""
         try:
-            call.strip_url, zooms, contact_idx = self._write_evidence(ev, call)
+            call.strip_url, zooms, contact_idx, evidence_json = self._write_evidence(ev, call)
         except Exception:
             log.exception("[%s] evidence error", self.name_label)
+        if evidence_json and line is not None and scale is not None and not moved:
+            self._replay_pending = {"call": call, "json": evidence_json, "t": ev.t, "x": ev.x, "y": y_contact,
+                                    "deadline": ev.t + REPLAY_AFTER_S}
         if zooms and confirm_jev.available() and verdict != Verdict.NO_CALL:
             def _confirmed(result, call=call):
                 if result is not None:
@@ -590,15 +640,47 @@ class CameraWorker(threading.Thread):
         self.on_event(call)
 
     def _phrase(self, call: CallEvent) -> str:
+        """Verdict first, then the line; short, because a rally does not wait (about 1.4-1.9 s each)."""
         name = self.name_label
         if call.verdict == Verdict.OUT.value:
-            cm = f", by {call.gap_cm:.0f} centimetres" if call.gap_cm is not None else ""
-            return f"Out, {name}{cm}."
+            by = f" by {call.gap_cm:.0f}" if call.gap_cm is not None else ""
+            return f"Out{by}. {name}."
         if call.verdict == Verdict.TOO_CLOSE.value:
-            return f"Too close to call, {name}. In."
+            return f"In, close. {name}."
         if call.verdict == Verdict.NO_CALL.value:
             return f"No call, {name}."
         return f"In, {name}."
+
+    def _finish_replay(self) -> None:
+        """Rebuild the bounce in 3D from the track around it and add it to the call's evidence json."""
+        pend, self._replay_pending = self._replay_pending, None
+        with self._lock:
+            line, scale, size = self.calib.line, self.calib.scale, self.work_size
+        if line is None or scale is None or size is None:
+            return
+        pts = flight_window(list(self.trail), pend["t"])
+        try:
+            rep = reconstruct_replay(pts, pend["t"], (pend["x"], pend["y"]), line, scale, size)
+        except (ValueError, np.linalg.LinAlgError) as exc:
+            log.warning("[%s] replay failed for call %d: %r", self.name_label, pend["call"].seq, exc)
+            return
+        if rep is None:
+            log.debug("[%s] no replay for call %d (%d track points)", self.name_label, pend["call"].seq, len(pts))
+            return
+        try:
+            with open(pend["json"]) as f:
+                meta = json.load(f)
+            meta["replay"] = rep
+            tmp = pend["json"] + ".tmp"
+            with open(tmp, "w") as f:
+                json.dump(meta, f, indent=1)
+            os.replace(tmp, pend["json"])
+        except (OSError, ValueError):
+            log.exception("[%s] could not add the replay to %s", self.name_label, pend["json"])
+            return
+        call = pend["call"]
+        call.replay = True
+        self.on_event(call)  # same cam/uid: the dashboard patches the existing row
 
     # -------------------------------------------------------------- evidence
     def _draw_line(self, img, thickness=2) -> None:
@@ -628,9 +710,9 @@ class CameraWorker(threading.Thread):
         cv2.line(img, (xi - 10, yi), (xi + 10, yi), col, 2, cv2.LINE_AA)
         cv2.line(img, (xi, yi - 10), (xi, yi + 10), col, 2, cv2.LINE_AA)
 
-    def _write_evidence(self, ev: BounceEvent, call: CallEvent) -> tuple[str, list, int]:
+    def _write_evidence(self, ev: BounceEvent, call: CallEvent) -> tuple[str, list, int, str]:
         if not self.ring:
-            return "", [], 0
+            return "", [], 0, ""
         frames = list(self.ring)
         times = np.array([f[0] for f in frames])
         k = int(np.argmin(np.abs(times - ev.t)))
@@ -660,7 +742,7 @@ class CameraWorker(threading.Thread):
             else:
                 zooms.append(np.zeros((tile_w, tile_w, 3), np.uint8))
         if not tiles:
-            return "", [], 0
+            return "", [], 0, ""
         th = tiles[0].shape[0]
         tiles = [cv2.resize(tl, (tile_w, th)) for tl in tiles]
         row1 = np.hstack(tiles)
@@ -680,9 +762,10 @@ class CameraWorker(threading.Thread):
         meta = asdict(call)
         meta["line"] = self.calib.line.to_dict() if self.calib.line else None
         meta["points"] = [asdict(p) for p in ev.points]
-        with open(os.path.join(d, base + ".json"), "w") as f:
+        json_path = os.path.join(d, base + ".json")
+        with open(json_path, "w") as f:
             json.dump(meta, f, indent=1)
-        return f"/events/{day}/{base}.jpg", zooms, contact_idx
+        return f"/events/{day}/{base}.jpg", zooms, contact_idx, json_path
 
     # ------------------------------------------------------------- previews
     def _emit_preview(self, work: np.ndarray) -> None:
@@ -775,29 +858,51 @@ class CameraWorker(threading.Thread):
 
 
 class Speaker:
-    """macOS `say`, serialized so verdicts never talk over each other."""
+    """macOS `say`, one verdict at a time, and only ones that still matter.
 
-    def __init__(self, voice: str | None = None, rate: int = 200):
-        import queue
-        import subprocess
+    A call takes 1.4-1.9 s to say and a rally does not wait, so there is a single waiting slot: a newer call
+    replaces the one waiting (except that an IN never pushes out a waiting OUT), a call older than MAX_AGE_S
+    is dropped, and an OUT cuts off a non-OUT that is being read out."""
 
-        self._q: "queue.Queue[str]" = queue.Queue()
+    MAX_AGE_S = 2.5
+
+    def __init__(self, voice: str | None = None, rate: int = 200, command: list[str] | None = None):
+        self._command = command or ["say"]  # tests swap in a stand-in
         self._voice, self._rate = voice, rate
-        self._subprocess = subprocess
+        self._cv = threading.Condition()
+        self._pending: tuple[float, str, bool] | None = None  # (queued at, text, urgent)
+        self._proc: subprocess.Popen | None = None
+        self._speaking_urgent = False
+        threading.Thread(target=self._loop, daemon=True, name="speaker").start()
 
-        def loop():
-            while True:
-                text = self._q.get()
-                cmd = ["say", "-r", str(self._rate)]
-                if self._voice:
-                    cmd += ["-v", self._voice]
-                try:
-                    self._subprocess.run(cmd + [text], check=False, timeout=15)
-                except Exception:
-                    log.exception("say failed")
+    def say(self, text: str, urgent: bool = False) -> None:
+        with self._cv:
+            if self._pending is not None and self._pending[2] and not urgent:
+                return
+            self._pending = (time.monotonic(), text, urgent)
+            if urgent and self._proc is not None and not self._speaking_urgent:
+                self._proc.terminate()
+            self._cv.notify()
 
-        threading.Thread(target=loop, daemon=True, name="speaker").start()
-
-    def say(self, text: str) -> None:
-        if self._q.qsize() < 3:
-            self._q.put(text)
+    def _loop(self) -> None:
+        while True:
+            with self._cv:
+                while self._pending is None:
+                    self._cv.wait()
+                (queued, text, urgent), self._pending = self._pending, None
+            if time.monotonic() - queued > self.MAX_AGE_S:
+                log.info("not announcing a stale call: %s", text)
+                continue
+            cmd = self._command + ["-r", str(self._rate)] + (["-v", self._voice] if self._voice else []) + [text]
+            try:
+                with self._cv:
+                    self._proc = subprocess.Popen(cmd)
+                    self._speaking_urgent = urgent
+                self._proc.wait(timeout=15)
+            except subprocess.TimeoutExpired:
+                self._proc.kill()
+            except Exception:
+                log.exception("say failed")
+            finally:
+                with self._cv:
+                    self._proc = None

@@ -32,7 +32,10 @@
 
   <aside class="side">
     <div class="evidence">
-      <h2>Last call</h2>
+      <div class="evidence-head">
+        <h2>Last call</h2>
+        <button id="replayBtn" class="small" hidden>3D replay</button>
+      </div>
       <a id="stripLink" href="#" target="_blank" rel="noopener"><img id="strip" alt="Five frames around the bounce with the ball track and the line drawn" hidden></a>
       <p class="muted" id="stripEmpty">The five frames around each bounce appear here, with the ball path and the line drawn in.</p>
     </div>
@@ -76,6 +79,28 @@
   </div>
 </div>
 
+<div id="replay" class="replay" hidden role="dialog" aria-modal="true" aria-labelledby="replayTitle">
+  <div class="replay-head">
+    <div class="replay-title" id="replayTitle">3D replay</div>
+    <div class="replay-views">
+      <button class="small" data-view="broadcast" aria-pressed="true">Broadcast</button>
+      <button class="small" data-view="line" aria-pressed="false">Down the line</button>
+      <button class="small" data-view="top" aria-pressed="false">From above</button>
+      <button class="small" id="replayAgain">Play again</button>
+    </div>
+    <button class="small" id="replayClose">Close</button>
+  </div>
+  <div class="replay-body">
+    <div class="replay-stage"><canvas id="replayCanvas" aria-label="3D view of the ball's path and where it bounced next to the line"></canvas></div>
+    <aside class="replay-side">
+      <h2>Bounce mark, from above</h2>
+      <canvas id="replayInset" class="replay-inset" aria-label="Close-up of the bounce mark next to the line"></canvas>
+      <dl class="replay-facts" id="replayFacts"></dl>
+      <p class="muted">Rebuilt from this camera's track. The bounce mark is the judged contact point; the arc's length along the line is approximate from one camera. Drag to turn the view, scroll to zoom.</p>
+    </aside>
+  </div>
+</div>
+
 <template id="tileTpl">
   <article class="tile">
     <div class="frame"><img alt="Live preview"><div class="pill"></div></div>
@@ -85,13 +110,14 @@
     </div>
     <div class="tile-row tile-actions">
       <button class="small act-calib">Calibrate</button>
-      <button class="small act-guard" title="Accept the current view as the reference">Re-arm guard</button>
+      <button class="small act-guard" title="After putting the phone back, check the line is where it was calibrated" hidden>Phone is back</button>
       <button class="small act-color" title="Forget the ball colour; detect by motion only" hidden><i class="swatch"></i>Clear colour</button>
       <button class="small quiet act-remove">Remove</button>
     </div>
     <div class="tile-note"></div>
   </article>
 </template>
+<script src="/static/replay.js"></script>
 <script src="/static/dashboard.js"></script>
 </body>
 </html>

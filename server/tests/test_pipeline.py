@@ -98,3 +98,47 @@ def test_corrupt_calibration_file_is_ignored(tmp_path):
         f.write("{not json")
     cam, _ = make_worker(tmp_path)
     assert cam.calib.line is None
+
+
+def _knock(frame, px=40):
+    return np.roll(frame, px, axis=1)  # the phone got knocked sideways
+
+
+def test_phone_is_back_is_refused_while_the_paint_is_elsewhere(tmp_path):
+    scene = Scene(seed=5)
+    cam, _ = make_worker(tmp_path)
+    feed(cam, scene, 35)
+    p1, p2, in_pt = scene.line_calibration()
+    cam.calibrate(p1, p2, in_pt, None, view=(1280, 720))
+    for i in range(10):
+        cam._process(_knock(scene.frame(None)), 2.0 + i / 30)
+    cam.moved = True  # what the guard does a few seconds after the knock
+    assert cam.rearm_guard() is False
+    assert cam.moved and "calibrate again" in cam.moved_reason
+
+
+def test_phone_is_back_resumes_calls_when_the_paint_is_where_the_line_is(tmp_path):
+    scene = Scene(seed=5)
+    cam, _ = make_worker(tmp_path)
+    feed(cam, scene, 35)
+    p1, p2, in_pt = scene.line_calibration()
+    cam.calibrate(p1, p2, in_pt, None, view=(1280, 720))
+    for i in range(10):
+        cam._process(_knock(scene.frame(None)), 2.0 + i / 30)
+    cam.moved = True
+    feed(cam, scene, 10, t0=3.0)  # put back where it was
+    assert cam.rearm_guard() is True
+    assert not cam.moved
+
+
+def test_settings_reject_bad_values_without_applying_any():
+    s = Settings()
+    s.update({"margin_cm": 3, "unknown_key": 1})
+    assert s.margin_cm == 3.0
+    for bad in ({"margin_cm": "abc"}, {"margin_cm": -5}, {"margin_cm": float("nan")}, {"speak": "false"},
+                {"margin_cm": True}):
+        with pytest.raises(ValueError):
+            s.update(bad)
+    with pytest.raises(ValueError):
+        s.update({"margin_cm": 4, "speak": "no"})
+    assert s.margin_cm == 3.0 and s.speak is True

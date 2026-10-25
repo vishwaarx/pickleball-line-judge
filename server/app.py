@@ -5,6 +5,7 @@ import argparse
 import asyncio
 import io
 import json
+import math
 import os
 import socket
 import ssl
@@ -103,10 +104,11 @@ class Manager:
         d = asdict(call)
 
         def deliver():
-            # a second delivery of the same event (by uid) carries Jev's confirmation: patch, don't append
+            # a later delivery of the same event (by uid) carries Jev's confirmation or the 3D replay: patch, don't append
             for e in reversed(self.hub.events[-50:]):
                 if e.get("uid") == d.get("uid"):
                     e["confirmation"] = d.get("confirmation")
+                    e["replay"] = d.get("replay")
                     asyncio.ensure_future(self.hub.broadcast({"type": "event", "event": e, "update": True}))
                     return
             # event ids are assigned on the loop thread so they stay ordered with the broadcast
@@ -218,19 +220,38 @@ async def qr_png(request):
     return web.Response(body=buf.getvalue(), content_type="image/png")
 
 
+async def read_json(request) -> dict:
+    try:
+        body = await request.json()
+    except ValueError:
+        raise web.HTTPBadRequest(text="expected a JSON body")
+    if not isinstance(body, dict):
+        raise web.HTTPBadRequest(text="expected a JSON object")
+    return body
+
+
+def bad_request(message: str) -> web.Response:
+    return web.json_response({"error": message}, status=400)
+
+
 async def offer(request):
     mgr: Manager = request.app["mgr"]
-    params = await request.json()
-    cam_id = params.get("cam_id") or uuid.uuid4().hex[:8]
-    name = (params.get("name") or "Camera").strip()[:40]
+    params = await read_json(request)
+    # check the offer before anything is created: a bad request must not leave a camera behind
+    sdp = params.get("sdp")
+    if params.get("type") != "offer" or not isinstance(sdp, str) or not sdp.startswith("v=0") or "m=video" not in sdp:
+        return bad_request("expected a WebRTC offer with video")
+    cam_id = str(params.get("cam_id") or uuid.uuid4().hex[:8])[:32]
+    name = str(params.get("name") or "Camera").strip()[:40] or "Camera"
     for other_id, other in mgr.cams.items():
         if other_id != cam_id and other.name_label == name and other.status != "NO SIGNAL":
             # two phones on one line would replace each other every 30 s; refuse the second one
             log.warning("offer from %s for '%s' refused: %s is already streaming that line", request.remote, name, other_id)
             return web.json_response({"error": f"Another phone is already \"{name}\". Pick a different line name."},
                                      status=409)
+    existed = cam_id in mgr.cams and mgr.cams[cam_id].name_label == name
     cam = mgr.get_or_create(cam_id, name)
-    cam.phone_settings = params.get("settings") or {}
+    cam.phone_settings = params.get("settings") if isinstance(params.get("settings"), dict) else {}
     log.info("offer from %s '%s' %s phone=%s", request.remote, name, cam_id, cam.phone_settings)
 
     old = mgr.pcs.pop(cam_id, None)
@@ -267,9 +288,18 @@ async def offer(request):
             if mgr.pcs.get(cam_id) is pc:
                 mgr.pcs.pop(cam_id, None)
 
-    await pc.setRemoteDescription(RTCSessionDescription(sdp=params["sdp"], type=params["type"]))
-    answer = await pc.createAnswer()
-    await pc.setLocalDescription(answer)
+    try:
+        await pc.setRemoteDescription(RTCSessionDescription(sdp=params["sdp"], type=params["type"]))
+        answer = await pc.createAnswer()
+        await pc.setLocalDescription(answer)
+    except Exception as exc:  # an SDP aiortc cannot use
+        log.warning("offer from %s for '%s' rejected: %r", request.remote, name, exc)
+        await pc.close()
+        if mgr.pcs.get(cam_id) is pc:
+            mgr.pcs.pop(cam_id, None)
+        if not existed:
+            mgr.remove(cam_id)
+        return bad_request("could not use this WebRTC offer")
     return web.json_response({"sdp": pc.localDescription.sdp, "type": pc.localDescription.type,
                               "cam_id": cam_id})
 
@@ -302,17 +332,49 @@ async def api_events(request):
     return web.json_response(events[-50:])
 
 
+def _point(v) -> tuple[float, float] | None:
+    if not isinstance(v, (list, tuple)) or len(v) != 2:
+        return None
+    try:
+        x, y = float(v[0]), float(v[1])
+    except (TypeError, ValueError):
+        return None
+    return (x, y) if math.isfinite(x) and math.isfinite(y) else None
+
+
+def calibration_error(p1, p2, inside) -> str | None:
+    """Clicks that cannot define a line, in words the operator can act on."""
+    if p1 is None or p2 is None:
+        return "Click the far end and the near end of the line."
+    if inside is None:
+        return "Click a point on the court side of the line."
+    length = math.hypot(p2[0] - p1[0], p2[1] - p1[1])
+    if length < 20:
+        return "The two ends of the line are too close together. Click the far end, then the near end."
+    off = abs((inside[0] - p1[0]) * (p1[1] - p2[1]) + (inside[1] - p1[1]) * (p2[0] - p1[0])) / length
+    if off < 5:
+        return "The court-side click is on the line. Click a point clearly on the court side."
+    return None
+
+
 async def api_calibrate(request):
     mgr: Manager = request.app["mgr"]
     cam = mgr.cams.get(request.match_info["cam_id"])
     if cam is None:
         raise web.HTTPNotFound()
-    body = await request.json()
+    body = await read_json(request)
+    p1, p2, inside = _point(body.get("p1")), _point(body.get("p2")), _point(body.get("in"))
+    err = calibration_error(p1, p2, inside)
+    if err:
+        return bad_request(err)
+    view = _point(body.get("view"))
+    ball = _point(body.get("ball")) if body.get("ball") is not None else None
     try:
-        res = cam.calibrate(body["p1"], body["p2"], body["in"], body.get("ball"),
-                            coords=body.get("coords", "work"), view=body.get("view"))
+        res = cam.calibrate(p1, p2, inside, ball, coords=body.get("coords", "work"), view=view)
     except RuntimeError as exc:
         raise web.HTTPServiceUnavailable(text=str(exc))
+    except ValueError as exc:
+        return bad_request(str(exc))
     return web.json_response(res)
 
 
@@ -329,7 +391,8 @@ async def api_cam_action(request):
     if action == "clear_ball":
         cam.clear_ball_color()
     elif action == "reset_guard":
-        cam.rearm_guard()
+        if not cam.rearm_guard():
+            return web.json_response({"ok": False, "error": cam.moved_reason})
     else:
         raise web.HTTPBadRequest(text="unknown action")
     return web.json_response({"ok": True})
@@ -338,15 +401,18 @@ async def api_cam_action(request):
 async def api_settings(request):
     mgr: Manager = request.app["mgr"]
     if request.method == "POST":
-        mgr.settings.update(await request.json())
+        try:
+            mgr.settings.update(await read_json(request))
+        except ValueError as exc:
+            return bad_request(str(exc))
     return web.json_response(asdict(mgr.settings))
 
 
 async def api_say(request):
     mgr: Manager = request.app["mgr"]
-    body = await request.json()
+    body = await read_json(request)
     if mgr.speaker:
-        mgr.speaker.say(body.get("text", "Testing. Out, left sideline."))
+        mgr.speaker.say(str(body.get("text") or "Testing. Out by 3. Left sideline.")[:200])
     return web.json_response({"ok": True})
 
 
@@ -366,8 +432,11 @@ async def ws_handler(request):
                     data = json.loads(msg.data)
                 except ValueError:
                     continue
-                if data.get("type") == "settings":
-                    mgr.settings.update(data.get("settings", {}))
+                if isinstance(data, dict) and data.get("type") == "settings":
+                    try:
+                        mgr.settings.update(data.get("settings", {}))
+                    except ValueError as exc:
+                        log.warning("dashboard settings rejected: %s", exc)
     finally:
         hub.clients.discard(ws)
     return ws

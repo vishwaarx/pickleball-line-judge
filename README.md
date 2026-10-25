@@ -63,7 +63,8 @@ start.sh               run this; loads .env, creates the venv, starts server/app
 server/app.py          HTTPS (mkcert), /cam phone page, /offer WebRTC, /ws dashboard, /api/*
 server/pipeline.py     per-camera worker: detect → track → bounce → judge → evidence → speak
 server/judge/          geometry.py (verdict bands), bounce.py (path intersection),
-                       detector.py, tracker.py, linescale.py (paint-width scale + click snap)
+                       detector.py, tracker.py, linescale.py (paint-width scale + click snap),
+                       replay.py (3D bounce replay from one camera, shown by the dashboard's "3D replay")
 server/confirm_jev.py  optional Jev second opinion (TYPESAFE_API_KEY + internet only)
 server/static/         dashboard (index.html) and phone page (cam.html), vanilla JS
 server/tools/          synth.py (court renderer), bench.py, feed_video.py, e2e_check.py

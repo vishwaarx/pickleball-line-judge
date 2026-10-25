@@ -16,6 +16,11 @@ dependencies = [
 [project.optional-dependencies]
 dev = ["pytest>=8"]
 
+# flat layout with several top-level folders (e2e, static, logs, ...): name what gets installed
+[tool.setuptools]
+py-modules = ["app", "pipeline", "confirm_jev", "logsetup"]
+packages = ["judge", "tools"]
+
 [tool.pytest.ini_options]
 testpaths = ["tests"]
 pythonpath = ["."]

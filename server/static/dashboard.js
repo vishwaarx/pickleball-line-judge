@@ -4,11 +4,16 @@
   const band = $("band"), word = $("word"), bandCam = $("bandCam"), bandGap = $("bandGap"), bandMeta = $("bandMeta");
   const tiles = $("tiles"), emptyCams = $("emptyCams"), tileTpl = $("tileTpl");
   const strip = $("strip"), stripLink = $("stripLink"), stripEmpty = $("stripEmpty"), logEl = $("log");
+  const replayBtn = $("replayBtn");
   const marginIn = $("margin"), announceIn = $("announce"), speakIn = $("speak");
   const tileEls = new Map();
-  let state = null, bandTimer = null, settingsDirty = false;
+  const calls = new Map();  // key -> latest copy of each call, so later patches (Jev, replay) are seen
+  let state = null, bandTimer = null, settingsDirty = false, shownKey = null;
 
-  const LABEL = { IN: "In", OUT: "Out", TOO_CLOSE: "Too close", NO_CALL: "No call" };
+  const LABEL = { IN: "In", OUT: "Out", TOO_CLOSE: "Close · in", NO_CALL: "No call" };
+  // TOO CLOSE counts as IN (rule 8.D), so the big word says so; the band colour and the detail say it was close
+  const BAND_WORD = { IN: "In", OUT: "Out", TOO_CLOSE: "In", NO_CALL: "No call" };
+  const keyOf = (ev) => ev.uid || `${ev.cam_id}:${ev.seq}`;
 
   function connect() {
     const ws = new WebSocket((location.protocol === "https:" ? "wss://" : "ws://") + location.host + "/ws");
@@ -48,7 +53,12 @@
       tileEls.set(cam.id, el);
       tiles.appendChild(el);
       el.querySelector(".act-calib").addEventListener("click", () => openCalib(cam.id));
-      el.querySelector(".act-guard").addEventListener("click", () => fetch(`/api/cam/${cam.id}/reset_guard`, { method: "POST" }));
+      el.querySelector(".act-guard").addEventListener("click", async () => {
+        // the server resumes calls only if the paint is back where the line was calibrated
+        const res = await fetch(`/api/cam/${cam.id}/reset_guard`, { method: "POST" });
+        const body = await res.json().catch(() => ({}));
+        if (body.ok === false) el.querySelector(".tile-note").textContent = `Still moved: ${body.error}.`;
+      });
       el.querySelector(".act-color").addEventListener("click", () => fetch(`/api/cam/${cam.id}/clear_ball`, { method: "POST" }));
       el.querySelector(".act-remove").addEventListener("click", () => {
         if (confirm(`Remove ${cam.name}?`)) fetch(`/api/cam/${cam.id}/remove`, { method: "POST" });
@@ -61,6 +71,7 @@
     pill.className = "pill " + status.replace(" ", "");
     const cap = cam.capture ? `${cam.capture[0]}×${cam.capture[1]}` : "";
     el.querySelector(".tile-fps").textContent = cam.status === "NO SIGNAL" ? "waiting for phone" : `${cap}, ${cam.fps_in} fps in, ${cam.fps_proc} fps judged`;
+    el.querySelector(".act-guard").hidden = cam.status !== "MOVED";
     const colorBtn = el.querySelector(".act-color");
     colorBtn.hidden = !cam.ball_bgr;
     if (cam.ball_bgr) colorBtn.style.setProperty("--swatch", `rgb(${cam.ball_bgr[2]},${cam.ball_bgr[1]},${cam.ball_bgr[0]})`);
@@ -86,13 +97,16 @@
   function showBand(ev) {
     clearTimeout(bandTimer);
     band.className = "band " + ev.verdict;
-    word.textContent = LABEL[ev.verdict] || ev.verdict;
+    word.textContent = BAND_WORD[ev.verdict] || ev.verdict;
     bandCam.textContent = ev.cam_name;
-    if (ev.gap_cm != null) {
+    const bits = [ev.wall_time, `${ev.fps_in} fps`, `${ev.n_before}+${ev.n_after} frames around the bounce`];
+    if (ev.verdict === "TOO_CLOSE") {
+      bandGap.textContent = "Too close to call";
+      if (ev.gap_cm != null) bits.unshift(`${ev.gap_cm.toFixed(1)} cm gap, inside the margin`);
+    } else if (ev.gap_cm != null) {
       const g = ev.gap_cm;
       bandGap.textContent = g > 0 ? `${g.toFixed(1)} cm out` : `${Math.abs(g).toFixed(1)} cm inside`;
     } else bandGap.textContent = "";
-    const bits = [ev.wall_time, `${ev.fps_in} fps`, `${ev.n_before}+${ev.n_after} frames around the bounce`];
     if (ev.reason) bits.push(ev.reason);
     bandMeta.textContent = bits.join(",  ");
     bandTimer = setTimeout(() => {
@@ -108,7 +122,10 @@
     strip.hidden = false;
     stripLink.href = ev.strip_url;
     stripEmpty.hidden = true;
+    shownKey = keyOf(ev);
+    replayBtn.hidden = !ev.replay;
   }
+  replayBtn.addEventListener("click", () => { const ev = calls.get(shownKey); if (ev) window.openReplay(ev); });
 
   function confirmationText(ev) {
     const c = ev.confirmation;
@@ -118,24 +135,31 @@
     return ` · Jev: ${[ball, agree].filter(Boolean).join(" ")}`;
   }
   function logText(ev) {
-    const gap = ev.gap_cm == null ? "" : ev.gap_cm > 0 ? `${ev.gap_cm.toFixed(1)} cm out` : `${Math.abs(ev.gap_cm).toFixed(1)} cm in`;
+    const gap = ev.gap_cm == null ? ""
+      : ev.verdict === "TOO_CLOSE" ? `too close, ${ev.gap_cm.toFixed(1)} cm gap`
+      : ev.gap_cm > 0 ? `${ev.gap_cm.toFixed(1)} cm out` : `${Math.abs(ev.gap_cm).toFixed(1)} cm in`;
     return `${ev.cam_name} ${gap ? "· " + gap : ""}${ev.reason ? " · " + ev.reason : ""}${confirmationText(ev)}`;
   }
   function addLog(ev) {
-    const key = ev.uid || `${ev.cam_id}:${ev.seq}`;
+    const key = keyOf(ev);
     if (logEl.querySelector(`li[data-key="${key}"]`)) return;  // replayed on reconnect
+    calls.set(key, ev);
     const li = document.createElement("li");
     li.className = ev.verdict;
     li.dataset.key = key;
     li.innerHTML = `<span class="v">${LABEL[ev.verdict] || ev.verdict}</span><span class="d"></span><span class="t">${ev.wall_time}</span>`;
     li.querySelector(".d").textContent = logText(ev);
-    li.addEventListener("click", () => { if (ev.strip_url) showStrip(ev); showBand(ev); });
+    li.addEventListener("click", () => { const cur = calls.get(key) || ev; if (cur.strip_url) showStrip(cur); showBand(cur); });
     logEl.prepend(li);
-    while (logEl.children.length > 60) logEl.lastChild.remove();
+    while (logEl.children.length > 60) { calls.delete(logEl.lastChild.dataset.key); logEl.lastChild.remove(); }
   }
   function onEventUpdate(ev) {
-    const li = logEl.querySelector(`li[data-key="${ev.uid || `${ev.cam_id}:${ev.seq}`}"]`);
-    if (li) li.querySelector(".d").textContent = logText(ev);
+    const key = keyOf(ev);
+    const cur = calls.get(key);
+    if (cur) Object.assign(cur, ev);
+    const li = logEl.querySelector(`li[data-key="${key}"]`);
+    if (li) li.querySelector(".d").textContent = logText(cur || ev);
+    if (key === shownKey) replayBtn.hidden = !(cur || ev).replay;
   }
 
   // ---- settings
@@ -149,7 +173,7 @@
     el.addEventListener("change", pushSettings);
   }
   speakIn.addEventListener("change", pushSettings);
-  $("testSay").addEventListener("click", () => fetch("/api/say", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text: "Out, left sideline, by 3 centimetres." }) }));
+  $("testSay").addEventListener("click", () => fetch("/api/say", { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify({ text: "Out by 3. Left sideline." }) }));
 
   // ---- calibration
   const calib = $("calib"), calibImg = $("calibImg"), canvas = $("calibCanvas"), ctx = canvas.getContext("2d");
@@ -195,10 +219,15 @@
     const body = { p1: clicks[0], p2: clicks[1], in: clicks[2], ball: clicks[3] || null, coords: "work",
       view: [canvas.width, canvas.height] };
     const res = await fetch(`/api/cam/${calibCam}/calibrate`, { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) });
-    if (res.ok) calib.hidden = true; else alert("Calibration failed: " + res.status);
+    if (res.ok) { calib.hidden = true; return; }
+    // keep the overlay open so Undo can fix the clicks; say what was wrong
+    const err = await res.json().then((b) => b.error).catch(() => null);
+    stepEl.textContent = err || (res.status === 503 ? "No picture from this phone yet. Wait a moment and try again." : `Could not save (error ${res.status}).`);
+    stepEl.classList.add("error");
   });
   function updateStep() {
     const n = clicks.length;
+    stepEl.classList.remove("error");
     stepEl.textContent = STEPS[Math.min(n, 4)];
     skipBtn.hidden = n !== 3;
     saveBtn.hidden = n < 4;
